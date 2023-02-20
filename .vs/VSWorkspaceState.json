@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\controllers",
+    "\\middlewares",
+    "\\models",
+    "\\public",
+    "\\routes"
+  ],
+  "SelectedNode": "\\public\\players.json",
+  "PreviewInSolutionExplorer": false
+}
