@@ -1,11 +1,11 @@
-import 'package:ballerchain/pages/login_page.dart';
+import 'package:ballerchain/view/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/common/theme_helper.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
-import 'login_page.dart';
+//import 'login_page.dart';
 import 'widgets/header_widget.dart';
 
 class ForgotPasswordVerificationPage extends StatefulWidget {
@@ -59,7 +59,7 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                               'Enter the verification code we just sent you on your email address.',
                               style: TextStyle(
                                 // fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.bold,a
                                   color: Colors.black54
                               ),
                               // textAlign: TextAlign.center,

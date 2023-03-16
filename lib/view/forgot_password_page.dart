@@ -1,12 +1,13 @@
 
+import 'package:ballerchain/viewModel/forgot_password_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/common/theme_helper.dart';
 
-import 'forgot_password_verification_page.dart';
-import 'login_page.dart';
-import 'widgets/header_widget.dart';
+import 'package:ballerchain/pages/forgot_password_verification_page.dart';
+import 'package:ballerchain/view/login.dart';
+import 'package:ballerchain/pages/widgets/header_widget.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -16,7 +17,24 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+
+  final ForgetPasswordViewModel _forgetPasswordViewModel = ForgetPasswordViewModel();
+
   final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _emailController;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +97,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             Container(
                               child: TextFormField(
                                 decoration: ThemeHelper().textInputDecoration("Email", "Enter your email"),
+                                controller: _emailController,
                                 validator: (val){
                                   if(val!.isEmpty){
                                     return "Email can't be empty";
@@ -108,13 +127,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   if(_formKey.currentState!.validate()) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ForgotPasswordVerificationPage()),
-                                    );
+                                    _formKey.currentState!.save();
+                                    _forgetPasswordViewModel.sendForgetPasswordEmail(context, _emailController.text,
+                                    ).then((_) {
+                                      // Navigate to success screen
+                                      print("success !!");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginPage()),
+                                      );
+                                    }).catchError((error) {
+                                      // Handle signup error
+                                    });
                                   }
                                 },
                               ),

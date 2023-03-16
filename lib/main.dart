@@ -1,4 +1,5 @@
-import 'package:ballerchain/pages/login_page.dart';
+import 'package:ballerchain/SplashScreen.dart';
+import 'package:ballerchain/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -23,7 +24,8 @@ class LoginUI extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey.shade100,
         primarySwatch: Colors.grey,
       ),
-      home: const LoginPage(),
+      home: SplashScreen(),
+
     );
   }
 }
