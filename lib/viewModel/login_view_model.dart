@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ballerchain/view/profile_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
 //import '../Res/AppColors.dart';
 import '../Utils/const.dart';
-import '../Utils/shared_preference.dart';
+import 'package:ballerchain/utils/shared_preference.dart';
 import 'package:ballerchain/interceptors/dio_interceptor.dart';
 
 
@@ -27,24 +28,35 @@ class LoginViewModel{
     );
     print("je suis la ");
 
-
     if (response.statusCode == 200) {
-      print("aaaaaaaaa");
       // Login successful
       final jsonResponse = json.decode(response.body);
-
       final userJson = jsonResponse['user'] as Map<String, dynamic>;
-      //print(userJson);
-      //final user=User.fromJson(userJson);
+      //Map<String,dynamic> userJson1 = jsonResponse['user'] ;
 
       final accessToken = jsonResponse['accessToken'] as String;
+      final id = userJson['_id'] as String;
       SharedPreference.setToken(accessToken);
+      SharedPreference.setUserId(id);
+
 
       print('Access Token: $accessToken');
-      //print("je suis la1 ");
-      print(response.body.toString());
+      print('voici id: $id');
+      print('id stocke sharedpreference: ${await SharedPreference.getUserId()}');
+      //print(response.body.toString());
 
-
+      String? userId;
+      SharedPreference.getUserId()
+          .then((value) {
+        userId = value;
+        Navigator.of(context)
+            .pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) =>
+                    ProfileView(
+                        userId: userId!)),
+                (route) => false);
+      });
 
       return jsonResponse;
 
@@ -54,7 +66,7 @@ class LoginViewModel{
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Invalid email or password'),
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 4),
         backgroundColor:Colors.red ,
       ));
       throw Exception('Invalid email or password');

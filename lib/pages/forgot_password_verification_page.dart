@@ -59,7 +59,7 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                               'Enter the verification code we just sent you on your email address.',
                               style: TextStyle(
                                 // fontSize: 20,
-                                  fontWeight: FontWeight.bold,a
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.black54
                               ),
                               // textAlign: TextAlign.center,

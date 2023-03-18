@@ -133,13 +133,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     _forgetPasswordViewModel.sendForgetPasswordEmail(context, _emailController.text,
                                     ).then((_) {
                                       // Navigate to success screen
-                                      print("success !!");
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginPage()),
-                                      );
+                                      print("Email sent with success !!");
+
+
                                     }).catchError((error) {
                                       // Handle signup error
                                     });

@@ -1,25 +1,13 @@
-import 'dart:convert';
-
+import 'package:ballerchain/utils/shared_preference.dart';
 import 'package:ballerchain/view/profile_page.dart';
 import 'package:ballerchain/view/registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/common/theme_helper.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/viewModel/login_view_model.dart';
-
-//import 'forgot_password_page.dart';
-//import 'profile_page.dart';
-//import 'registration_page.dart';
 import 'package:ballerchain/view//forgot_password_page.dart';
 import 'package:ballerchain/pages//widgets/header_widget.dart';
-
-import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,15 +18,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final LoginViewModel _loginViewModel = LoginViewModel();
+
   double _headerHeight = 250;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController _firstnameController, _passwordController;
+
   @override
   void initState() {
     super.initState();
     _firstnameController = TextEditingController();
     _passwordController = TextEditingController();
   }
+
   @override
   void dispose() {
     _firstnameController.dispose();
@@ -48,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String? firstname;
   String? password;
+
   //final String _baseUrl = "172.25.64.1:9095";
 
   @override
@@ -94,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                                       'Username', 'Enter your username'),
                                 ),
                                 decoration:
-                                ThemeHelper().inputBoxDecorationShaddow(),
+                                    ThemeHelper().inputBoxDecorationShaddow(),
                               ),
                               SizedBox(height: 30.0),
                               Container(
@@ -105,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                                       'Password', 'Enter your password'),
                                 ),
                                 decoration:
-                                ThemeHelper().inputBoxDecorationShaddow(),
+                                    ThemeHelper().inputBoxDecorationShaddow(),
                               ),
                               SizedBox(height: 15.0),
                               Container(
@@ -130,12 +122,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Container(
                                 decoration:
-                                ThemeHelper().buttonBoxDecoration(context),
+                                    ThemeHelper().buttonBoxDecoration(context),
                                 child: ElevatedButton(
                                   style: ThemeHelper().buttonStyle(),
                                   child: Padding(
                                     padding:
-                                    EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                        EdgeInsets.fromLTRB(40, 10, 40, 10),
                                     child: Text(
                                       'Sign In'.toUpperCase(),
                                       style: TextStyle(
@@ -144,23 +136,26 @@ class _LoginPageState extends State<LoginPage> {
                                           color: Colors.white),
                                     ),
                                   ),
-                                  onPressed: ()  async {
+                                  onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
                                       _formKey.currentState!.save();
-                                      await _loginViewModel.login(context, _firstnameController.text,
-                                          _passwordController.text)
+
+                                      await _loginViewModel
+                                          .login(
+                                              context,
+                                              _firstnameController.text,
+                                              _passwordController.text)
                                           .then((_) {
-                                        Navigator.of(context).pushAndRemoveUntil(
-                                            MaterialPageRoute(
-                                                builder: (context) => ProfilePage()),
-                                                (Route<dynamic> route) => false);
-                                      //  Navigator.pushNamed(context, bottomNavigationRoute);
+
+
+                                        //  Navigator.pushNamed(context, bottomNavigationRoute);
                                         // Navigate to success screen
+                                        print(SharedPreference.getUserId()
+                                            .toString());
                                         print("success !!");
                                       }).catchError((error) {
                                         // Handle signup error
                                       });
-
                                     }
                                   },
                                 ),
@@ -196,23 +191,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-/*Future<String> login(String firstname, String password) async {
-    try {
-      var url = Uri.parse('http://172.25.64.1:9095/user/login');
-      var response = await http.post(url, body: {
-        'firstname': firstname,
-        'password': password,
-      });
-      if (response.statusCode == 200) {
-
-        return response.body;
-      } else {
-        throw Exception('Failed to login1');
-      }
-    } catch (error) {
-      print('Error occurred while logging in: $error');
-      throw Exception('Failed to login2');
-    }
-  }*/
-
 }

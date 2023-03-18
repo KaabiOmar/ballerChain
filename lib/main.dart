@@ -1,13 +1,14 @@
 import 'package:ballerchain/SplashScreen.dart';
-import 'package:ballerchain/view/login.dart';
+import 'package:ballerchain/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 void main() {
-  runApp(LoginUI());
+  runApp(MyApp());
 }
 
-class LoginUI extends StatelessWidget {
+class MyApp extends StatelessWidget {
+
   //LoginUI({super.key});
   Color _primaryColor =HexColor('#2b103b');
   Color _accentyColor =HexColor('#5c1757');
@@ -25,6 +26,7 @@ class LoginUI extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: SplashScreen(),
+
 
     );
   }
