@@ -42,7 +42,7 @@ class LoginViewModel{
 
       print('Access Token: $accessToken');
       print('voici id: $id');
-      print('id stocke sharedpreference: ${await SharedPreference.getUserId()}');
+      print('id stocke dans sharedpreference: ${await SharedPreference.getUserId()}');
       //print(response.body.toString());
 
       String? userId;

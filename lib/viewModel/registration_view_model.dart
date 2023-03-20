@@ -1,6 +1,10 @@
 import 'dart:io';
+import 'package:ballerchain/common/theme_helper.dart';
+import 'package:ballerchain/main.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
 
 import '../model/user.dart';
 import '../utils/const.dart';
@@ -28,6 +32,8 @@ class SignUpViewModel {
 
     if (response.statusCode == 200) {
       print('ajout avec succee');
+
+
       return user;
     } else {
       print(response.body);

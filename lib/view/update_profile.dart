@@ -1,11 +1,23 @@
+import 'package:ballerchain/model/user.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../viewModel/profile_view_model.dart';
 
 class UpdateProfilePage extends StatefulWidget {
+  final String userId;
+
+  UpdateProfilePage({required this.userId});
+
   @override
   _UpdateProfilePageState createState() => _UpdateProfilePageState();
 }
 
 class _UpdateProfilePageState extends State<UpdateProfilePage> {
+
+  late Future<User> _futureUser;
+
+
   // Les contrôleurs de texte pour les champs de saisie
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -13,6 +25,17 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _futureUser = ProfileViewModel().fetchUserById(widget.userId);
+
+
+    // Récupérer les données de l'utilisateur à partir de SharedPreferences
+
+      }
+
 
   @override
   Widget build(BuildContext context) {

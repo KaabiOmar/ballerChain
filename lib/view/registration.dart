@@ -16,7 +16,6 @@ import 'package:ballerchain/viewModel/registration_view_model.dart';
 
 import '../model/user.dart';
 
-
 //import 'profile_page.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -24,7 +23,6 @@ class RegistrationPage extends StatefulWidget {
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
-
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
@@ -39,7 +37,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       _passwordController;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _firstnameController = TextEditingController();
     _lastnameController = TextEditingController();
@@ -48,6 +46,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     _birthdayController = TextEditingController();
     _passwordController = TextEditingController();
   }
+
   @override
   void dispose() {
     _firstnameController.dispose();
@@ -83,7 +82,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   //TextEditingController _birthdayController = TextEditingController();
   DateTime? _selectedDate;
   //DateTime selectedDate = DateTime.now();
- /* String? firstname;
+  /* String? firstname;
   String? lastname;
   String? password;
   String? email;
@@ -113,21 +112,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     key: _formKey,
                     child: Column(
                       children: [
+
                         GestureDetector(
                           child: Stack(
                             children: [
                               Container(
                                 child: GestureDetector(
+
                                   onTap: () {
                                     _pickImage(); // Fonction pour gérer la sélection de l'image
                                   },
+
                                   child: Stack(
                                     children: [
                                       Container(
                                         padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(100),
+                                              BorderRadius.circular(100),
                                           border: Border.all(
                                               width: 5, color: Colors.white),
                                           color: Colors.white,
@@ -141,48 +143,48 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                         ),
                                         child: _imageFile != null
                                             ? ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.circular(100),
-                                          child: Image(
-                                            fit: BoxFit.cover,
-                                            height: 160,
-                                            width: 160,
-                                            image: FileImage(_imageFile!),
-                                          ),
-                                        )
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: Image(
+                                                  fit: BoxFit.cover,
+                                                  height: 160,
+                                                  width: 160,
+                                                  image: FileImage(_imageFile!),
+                                                ),
+                                              )
                                             : Icon(
-                                          Icons.person,
-                                          color: Colors.grey.shade300,
-                                          size: 80.0,
-                                        ),
+                                                Icons.person,
+                                                color: Colors.grey.shade300,
+                                                size: 80.0,
+                                              ),
                                       ),
                                       _imageFile != null
                                           ? Positioned(
-                                        bottom: 0,
-                                        right: 0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: Icon(
-                                            Icons.add_circle,
-                                            color: Colors.grey.shade700,
-                                            size: 25.0,
-                                          ),
-                                        ),
-                                      )
+                                              bottom: 0,
+                                              right: 0,
+                                              child: Container(
+                                                padding: EdgeInsets.all(2),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),
+                                                child: Icon(
+                                                  Icons.add_circle,
+                                                  color: Colors.grey.shade700,
+                                                  size: 25.0,
+                                                ),
+                                              ),
+                                            )
                                           : Container(),
                                     ],
                                   ),
                                 ),
                               ),
-                              if (_imageFile == null)
+                            /*  if (_imageFile == null)
                                 Text(
                                   'Veuillez sélectionner une image',
                                   style: TextStyle(color: Colors.red),
-                                ),
+                                ),*/
                             ],
                           ),
                         ),
@@ -208,40 +210,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 30),
                         Container(
-                          decoration: ThemeHelper().inputBoxDecorationShaddow(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Birthday',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              SizedBox(height: 30),
-                              TextFormField(
-                                controller: _birthdayController,
-                                decoration: InputDecoration(
-                                  hintText: 'Select your birthday',
-                                  suffixIcon: GestureDetector(
-                                    onTap: () => _selectDate(context),
-                                    child: Icon(Icons.calendar_today),
-                                  ),
-                                ),
-                                readOnly: true,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please select your birthday';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
+                          child: TextFormField(
+                            controller: _birthdayController,
+                            decoration: ThemeHelper().textInputDecoration(
+                                'Select your birthday', 'Choose your birthday'),
+                            readOnly: true,
+                            onTap: () => _selectDate(context),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please select your birthday';
+                              }
+                              return null;
+                            },
                           ),
                         ),
+                        SizedBox(height: 30),
                         Container(
                           child: TextFormField(
                             controller: _emailController,
@@ -338,12 +323,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         SizedBox(height: 20.0),
                         Container(
                           decoration:
-                          ThemeHelper().buttonBoxDecoration(context),
+                              ThemeHelper().buttonBoxDecoration(context),
                           child: ElevatedButton(
                             style: ThemeHelper().buttonStyle(),
                             child: Padding(
                               padding:
-                              const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                  const EdgeInsets.fromLTRB(40, 10, 40, 10),
                               child: Text(
                                 "Register".toUpperCase(),
                                 style: TextStyle(
@@ -364,19 +349,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     phonenumber: _phonenumberController.text,
                                     birthday: _birthdayController.text,
                                     password: _passwordController.text,
-                                    image: _imageFile!.path.toString()
-
-                                );
+                                    image: _imageFile!.path.toString());
 
                                 _signUpViewModel.signup(updatedUser).then((_) {
-                                //  Navigator.pushNamed(context, loginRoute);
+                                  //  Navigator.pushNamed(context, loginRoute);
                                   print(updatedUser.image);
                                   //print(_gender);
                                 }).catchError((error) {
                                   print(error);
                                   // Handle signup error
                                 });
-
                               }
                             },
                           ),
@@ -487,13 +469,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _imageFile = File(pickedFile.path);
         image = _imageFile.toString();
 
-
         //_imageSelected = true;
       }
     });
   }
-
-
-
-
 }

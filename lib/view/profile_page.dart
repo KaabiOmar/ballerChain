@@ -63,7 +63,7 @@ class _ProfileViewState extends State<ProfileView> {
                             child: Image.network(' ${user.image}'),
                           ),
                           SizedBox(height: 20,),
-                          Text('Name: ${user.firstname} ${user.lastname}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                          Text('Profile : ${user.firstname} ${user.lastname}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                           SizedBox(height: 20,),
 
                           Container(
@@ -97,7 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 ListTile(
                                                   contentPadding: EdgeInsets.symmetric(
                                                       horizontal: 12, vertical: 4),
-                                                  leading: Icon(Icons.my_location),
+                                                  leading: Icon(Icons.calendar_today),
                                                   title: Text("Birthday"),
                                                   subtitle: Text('Birthday: ${user.birthday}'),
                                                 ),
