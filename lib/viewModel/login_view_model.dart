@@ -45,18 +45,7 @@ class LoginViewModel{
       print('id stocke dans sharedpreference: ${await SharedPreference.getUserId()}');
       //print(response.body.toString());
 
-      String? userId;
-      SharedPreference.getUserId()
-          .then((value) {
-        userId = value;
-        Navigator.of(context)
-            .pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) =>
-                    ProfileView(
-                        userId: userId!)),
-                (route) => false);
-      });
+
 
       return jsonResponse;
 

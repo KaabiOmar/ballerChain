@@ -1,4 +1,6 @@
 import 'package:ballerchain/utils/shared_preference.dart';
+import 'package:ballerchain/view/adminPage.dart';
+import 'package:ballerchain/view/landing_page.dart';
 import 'package:ballerchain/view/profile_page.dart';
 import 'package:ballerchain/view/registration.dart';
 import 'package:flutter/cupertino.dart';
@@ -146,7 +148,22 @@ class _LoginPageState extends State<LoginPage> {
                                               _firstnameController.text,
                                               _passwordController.text)
                                           .then((_) {
-
+                                        if (_firstnameController.text ==
+                                            "omar") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdminPage()),
+                                          );
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LandingPage()),
+                                          );
+                                        }
 
                                         //  Navigator.pushNamed(context, bottomNavigationRoute);
                                         // Navigate to success screen

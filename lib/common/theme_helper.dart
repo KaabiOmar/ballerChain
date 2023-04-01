@@ -55,6 +55,34 @@ class ThemeHelper{
     );
   }
 
+  BoxDecoration buttonBoxDecoration2(BuildContext context, [String color1 = "", String color2 = ""]) {
+    Color c1 = Theme.of(context).primaryColor;
+    Color c2 = Theme.of(context).accentColor;
+    if (color1.isEmpty == false) {
+      c1 = HexColor(color1);
+    }
+    if (color2.isEmpty == false) {
+      c2 = HexColor(color2);
+    }
+
+    return BoxDecoration(
+      boxShadow: [
+        BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)
+      ],
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0.0, 1.0],
+        colors: [
+          c1,
+          c2,
+        ],
+      ),
+      color: Colors.deepPurple.shade300,
+      borderRadius: BorderRadius.circular(50),
+    );
+  }
+
   ButtonStyle buttonStyle() {
     return ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -62,6 +90,20 @@ class ThemeHelper{
           borderRadius: BorderRadius.circular(30.0),
         ),
       ),
+      minimumSize: MaterialStateProperty.all(Size(50, 50)),
+      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+      shadowColor: MaterialStateProperty.all(Colors.transparent),
+    );
+  }
+  ButtonStyle buttonStyle2() {
+    return ButtonStyle(
+      minimumSize: MaterialStateProperty.all(Size(70, 70)),
+      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+      shadowColor: MaterialStateProperty.all(Colors.transparent),
+    );
+  }
+  ButtonStyle buttonStyle3() {
+    return ButtonStyle(
       minimumSize: MaterialStateProperty.all(Size(50, 50)),
       backgroundColor: MaterialStateProperty.all(Colors.transparent),
       shadowColor: MaterialStateProperty.all(Colors.transparent),

@@ -40,6 +40,8 @@ dependencies:
   sqflite: ^2.2.2
   path: ^1.8.1
   dio: ^4.0.4
+  google_nav_bar: ^5.0.6
+  premier_league_fantasy: ^0.0.33
 
 
 
@@ -76,6 +78,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.png
+    - assets/images/sweatcoin_bg.png
+    - assets/images/first.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
