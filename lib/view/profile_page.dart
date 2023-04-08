@@ -1,9 +1,7 @@
-import 'package:ballerchain/view/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/viewmodel/profile_view_model.dart';
 
-import '../common/theme_helper.dart';
 import '../pages/widgets/header_widget.dart';
 
 class ProfileView extends StatefulWidget {

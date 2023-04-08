@@ -1,28 +1,22 @@
 import 'dart:convert';
-import 'package:ballerchain/view/profile_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../model/user.dart';
-//import '../Res/AppColors.dart';
 import '../Utils/const.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
-import 'package:ballerchain/interceptors/dio_interceptor.dart';
 
 
 
 class LoginViewModel{
 
-  Future<dynamic> login(BuildContext context, String firstname,String password) async {
+  Future<dynamic> login(BuildContext context, String email,String password) async {
     final preferences= await  SharedPreferences.getInstance();
     final url = Uri.parse('$base_url/user/login');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'firstname': firstname,
+        'email': email,
         'password': password,
       }),
     );

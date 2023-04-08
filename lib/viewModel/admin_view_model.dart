@@ -5,17 +5,17 @@ import 'package:ballerchain/model/user.dart';
 import 'package:http/http.dart' as http;
 
 
-class UsersViewModel {
-  final url = Uri.parse('$base_url/user/users');
+class AdminViewModel {
 
-  Future<List<User>> getAllUser() async {
+
+  Future<String> deleteUser(String userId) async {
+    final url = Uri.parse('$base_url/user/delete/$userId');
     try {
-      final response = await http.get(url);
+      final response = await http.delete(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        List<User> users = data.map((user) => User.fromJson(user)).toList();
-        return users;
+       print("user deleted successfully");
+       return userId ;
       } else {
         throw Exception('Failed to get users');
       }

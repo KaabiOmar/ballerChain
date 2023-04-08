@@ -1,7 +1,7 @@
+import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
 import 'package:ballerchain/view/adminPage.dart';
 import 'package:ballerchain/view/landing_page.dart';
-import 'package:ballerchain/view/profile_page.dart';
 import 'package:ballerchain/view/registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -14,32 +14,35 @@ import 'package:ballerchain/pages//widgets/header_widget.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final LoginViewModel _loginViewModel = LoginViewModel();
+  late Future<User> _futureUser;
 
   double _headerHeight = 250;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final TextEditingController _firstnameController, _passwordController;
+  late final TextEditingController _emailController, _passwordController;
 
   @override
   void initState() {
     super.initState();
-    _firstnameController = TextEditingController();
+    _emailController = TextEditingController();
     _passwordController = TextEditingController();
+
   }
 
   @override
   void dispose() {
-    _firstnameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  String? firstname;
+  String? email;
   String? password;
 
   //final String _baseUrl = "172.25.64.1:9095";
@@ -83,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Container(
                                 child: TextFormField(
-                                  controller: _firstnameController,
+                                  controller: _emailController,
                                   decoration: ThemeHelper().textInputDecoration(
-                                      'Username', 'Enter your username'),
+                                      'Email', 'Enter your email'),
                                 ),
                                 decoration:
                                     ThemeHelper().inputBoxDecorationShaddow(),
@@ -145,11 +148,11 @@ class _LoginPageState extends State<LoginPage> {
                                       await _loginViewModel
                                           .login(
                                               context,
-                                              _firstnameController.text,
+                                              _emailController.text,
                                               _passwordController.text)
                                           .then((_) {
-                                        if (_firstnameController.text ==
-                                            "omar") {
+                                        if (_emailController.text ==
+                                            "omar.kaabi@esprit.tn") {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
