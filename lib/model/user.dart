@@ -11,8 +11,11 @@ class User {
    String? image;
    int? coins;
    int? steps;
+   String? role;
+   int? block;
 
-  User({
+
+   User({
     this.id,
     required this.firstname,
     required this.lastname,
@@ -23,7 +26,10 @@ class User {
     this.image,
     this.coins,
     this.steps,
-  });
+    this.role,
+    this.block
+
+   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -36,7 +42,9 @@ class User {
       password: json['password'],
       image: json['image'],
       coins: json['coins'],
-      steps:json['steps']
+      steps:json['steps'],
+      role:json['role'],
+      block:json['block']
     );
   }
    Map<String, dynamic> toJson() {

@@ -151,8 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                                               _emailController.text,
                                               _passwordController.text)
                                           .then((_) {
-                                        if (_emailController.text ==
-                                            "omar.kaabi@esprit.tn") {
+                                        if (_loginViewModel.roleLogin==
+                                            "admin") {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -160,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     AdminPage()),
                                           );
                                         } else {
+
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

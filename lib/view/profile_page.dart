@@ -38,38 +38,50 @@ class _ProfileViewState extends State<ProfileView> {
               return SingleChildScrollView(
                 child: Stack(
                   children: [
-                    Container(height: 100, child: HeaderWidget(_headerHeight,
-                        true,
-                        Image.asset(
-                            'assets/images/logo.png'))),
+                    Container(
+                        height: 160,
+                        child: HeaderWidget(_headerHeight, true,
+                            Image.asset('assets/images/logo.png'))),
                     Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(
                         children: [
-                          Container(
+                        /*  Container(
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(width: 5, color: Colors.white),
                               color: Colors.white,
                               boxShadow: [
-                                BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 20,
+                                  offset: const Offset(5, 5),
+                                ),
                               ],
                             ),
-                            child: Image.network(' ${user.image}'),
+                          //  child: Image.network(' ${user.image}'),
+                          ),*/
+                          SizedBox(
+                            height: 170,
                           ),
-                          SizedBox(height: 20,),
-                          Text('Profile : ${user.firstname} ${user.lastname}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                          SizedBox(height: 20,),
-
+                          Text(
+                            'Profile : ${user.firstname} ${user.lastname}',
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 4.0),
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     "Account Informations",
@@ -93,27 +105,36 @@ class _ProfileViewState extends State<ProfileView> {
                                               color: Colors.grey,
                                               tiles: [
                                                 ListTile(
-                                                  contentPadding: EdgeInsets.symmetric(
-                                                      horizontal: 12, vertical: 4),
-                                                  leading: Icon(Icons.calendar_today),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 4),
+                                                  leading: Icon(
+                                                      Icons.calendar_today),
                                                   title: Text("Birthday"),
-                                                  subtitle: Text('Birthday: ${user.birthday}'),
+                                                  subtitle: Text(
+                                                      'Birthday: ${user.birthday}'),
                                                 ),
                                                 ListTile(
-                                                  contentPadding: EdgeInsets.symmetric(
-                                                      horizontal: 12, vertical: 4),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 4),
                                                   leading: Icon(Icons.email),
                                                   title: Text("Email"),
-                                                  subtitle: Text('Email: ${user.email}'),
+                                                  subtitle: Text(
+                                                      'Email: ${user.email}'),
                                                 ),
                                                 ListTile(
-                                                  contentPadding: EdgeInsets.symmetric(
-                                                      horizontal: 12, vertical: 4),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 4),
                                                   leading: Icon(Icons.phone),
                                                   title: Text("Phone"),
-                                                  subtitle: Text('Phone: ${user.phonenumber}'),
+                                                  subtitle: Text(
+                                                      'Phone: ${user.phonenumber}'),
                                                 ),
-
                                               ],
                                             ),
                                           ],

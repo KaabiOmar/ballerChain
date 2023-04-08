@@ -5,9 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Utils/const.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
 
+import '../model/user.dart';
+
 
 
 class LoginViewModel{
+  String roleLogin="";
 
   Future<dynamic> login(BuildContext context, String email,String password) async {
     final preferences= await  SharedPreferences.getInstance();
@@ -33,12 +36,14 @@ class LoginViewModel{
       SharedPreference.setToken(accessToken);
       SharedPreference.setUserId(id);
 
+      final roleFromJson = userJson['role'] as String;
+      roleLogin =roleFromJson;
+
 
       print('Access Token: $accessToken');
       print('voici id: $id');
       print('id stocke dans sharedpreference: ${await SharedPreference.getUserId()}');
       //print(response.body.toString());
-
 
 
       return jsonResponse;
@@ -53,6 +58,16 @@ class LoginViewModel{
         backgroundColor:Colors.red ,
       ));
       throw Exception('Invalid email or password');
+    }else if(response.statusCode==202){
+
+      print('Account Blocked temporary');
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Account Blocked temporary'),
+        duration: Duration(seconds: 4),
+        backgroundColor:Colors.red ,
+      ));
+      throw Exception('Account Blocked temporary');
     }
     else {
       // Login failed

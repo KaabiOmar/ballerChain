@@ -48,8 +48,7 @@ class _AdminPageState extends State<AdminPage> {
           itemCount: _usersList.length,
           itemBuilder: (BuildContext context, int index) {
             User user = _usersList[index];
-            bool isExpanded = index ==
-                _selectedUserId; // Vérifie si l'utilisateur est sélectionné pour l'expansion
+            bool isExpanded = index == _selectedUserId;
 
             return Card(
               elevation: 2.0,
@@ -85,16 +84,45 @@ class _AdminPageState extends State<AdminPage> {
                           Text('Steps: ${user.steps} step'),
                           SizedBox(height: 8.0),
                           Text('Coins: ${user.coins} coin'),
+                          SizedBox(height: 8.0),
+                          Text('Blocked: ${user.block == 1 ? 'Oui' : 'Non'}'),
                           SizedBox(height: 16.0),
-                          ElevatedButton(
-                            onPressed: () {
-                              _adminViewModel.deleteUser(user.id!);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.red,
-                              minimumSize: Size(double.infinity, 48.0),
-                            ),
-                            child: Text('Delete User'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // Aligner les boutons horizontalement
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  _adminViewModel.blockUser(context,user.id!);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.redAccent.shade100,
+                                  minimumSize: Size(100, 48.0),
+                                ),
+                                child: Text('Block User'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _adminViewModel.unblockUser(context,user.id!);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.green,
+                                  minimumSize: Size(100, 48.0),
+                                ),
+                                child: Text('Unblock User'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _adminViewModel.deleteUser(context,user.id!);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red,
+                                  minimumSize: Size(
+                                      100, 48.0), // Taille minimale du bouton
+                                ),
+                                child: Text('Delete User'),
+                              ),
+                            ],
                           ),
                         ],
                       ),
