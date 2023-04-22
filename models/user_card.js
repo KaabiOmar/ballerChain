@@ -6,6 +6,16 @@ const playerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Player'
     },
+    niveau: {
+        type: Number,
+        required: true,
+        default: 1
+    },
+    position: {
+        type: Number,
+        required: true,
+        default: -1
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

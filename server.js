@@ -6,13 +6,17 @@ import cors from 'cors'; // Importer cors
 import { notFoundError, errorHandler } from './middlewares/error-handler.js';
 
 
+import cardRoutes from './routes/card.js';
+import userRoutes from './routes/User.js';
 import marketplace from './routes/marketplace.js';
+import exchange from './routes/exchange.js';
+import { update_cards2 } from './controllers/scraper.js';
 
 const app = express();
-const port = process.env.PORT || 9090;
+const port = process.env.PORT || 9091;
 const databaseName = 'ballchain_test';
 
-mongoose.set('debug', true);
+mongoose.set('debug', false);
 mongoose.Promise = global.Promise;
 
 mongoose
@@ -37,13 +41,19 @@ app.use((req, res, next) => {
 });
 
 
+app.use('/card', cardRoutes);
+app.use('/user', userRoutes);
 app.use('/marketplace', marketplace);
-
+app.use('/exchange',exchange);
 // Utiliser le middleware de routes introuvables
 app.use(notFoundError);
 // Utiliser le middleware gestionnaire d'erreurs
 app.use(errorHandler);
 
 app.listen(port, () => {
+
+    setInterval(() => {
+        update_cards2();
+    }, 24 * 60 * 60 * 1000);
     console.log(`Server running at http://localhost:${port}/`);
 });
