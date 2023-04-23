@@ -13,6 +13,7 @@ class SignUpViewModel {
   Future<User> signup(User user) async {
     final url = '$base_url/user';
 
+
     final imageFile = File(user.image!);
 
     var request = http.MultipartRequest('POST', Uri.parse(url));

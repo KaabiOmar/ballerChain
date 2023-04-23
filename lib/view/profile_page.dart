@@ -1,3 +1,5 @@
+import 'package:ballerchain/utils/shared_preference.dart';
+import 'package:ballerchain/view/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/viewmodel/profile_view_model.dart';
@@ -26,9 +28,6 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
       body: FutureBuilder<User>(
         future: _futureUser,
         builder: (context, snapshot) {
@@ -38,55 +37,30 @@ class _ProfileViewState extends State<ProfileView> {
               return SingleChildScrollView(
                 child: Stack(
                   children: [
-                    Container(
-                        height: 160,
-                        child: HeaderWidget(_headerHeight, true,
-                            Image.asset('assets/images/logo.png'))),
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/bgrnd.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: EdgeInsets.fromLTRB(10, 50, 10, 350),
                       child: Column(
                         children: [
-                        /*  Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 5, color: Colors.white),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 20,
-                                  offset: const Offset(5, 5),
-                                ),
-                              ],
-                            ),
-                          //  child: Image.network(' ${user.image}'),
-                          ),*/
-                          SizedBox(
-                            height: 170,
-                          ),
-                          Text(
-                            'Profile : ${user.firstname} ${user.lastname}',
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
                           Container(
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(
-                                      left: 8.0, bottom: 4.0),
+                                      left: 60.0, bottom: 14.0),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "Account Informations",
+                                    "Account Informations :",
                                     style: TextStyle(
-                                      color: Colors.black87,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
                                     ),
@@ -102,8 +76,30 @@ class _ProfileViewState extends State<ProfileView> {
                                         Column(
                                           children: <Widget>[
                                             ...ListTile.divideTiles(
-                                              color: Colors.grey,
+                                              color: Colors.deepPurple,
                                               tiles: [
+                                                ListTile(
+                                                  contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  leading: Icon(
+                                                      Icons.account_circle),
+                                                  title: Text("Firstname"),
+                                                  subtitle: Text(
+                                                      'Firstname: ${user.firstname}'),
+                                                ),
+                                                ListTile(
+                                                  contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  leading: Icon(
+                                                      Icons.account_circle_rounded),
+                                                  title: Text("Lastname"),
+                                                  subtitle: Text(
+                                                      'Lastname: ${user.lastname}'),
+                                                ),
                                                 ListTile(
                                                   contentPadding:
                                                       EdgeInsets.symmetric(
@@ -135,6 +131,16 @@ class _ProfileViewState extends State<ProfileView> {
                                                   subtitle: Text(
                                                       'Phone: ${user.phonenumber}'),
                                                 ),
+                                                ListTile(
+                                                  contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  leading: Icon(Icons.currency_exchange_outlined),
+                                                  title: Text("Coins"),
+                                                  subtitle: Text(
+                                                      'Coins: ${user.coins} coin'),
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -158,6 +164,43 @@ class _ProfileViewState extends State<ProfileView> {
           }
           return Center(child: CircularProgressIndicator());
         },
+      ),
+      appBar: AppBar(
+        title: Text(
+          'Profile',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.mode_edit,color: Colors.white),
+            onPressed: () {
+              String? userId;
+              SharedPreference.getUserId().then((value) {
+                userId = value;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            UpdateProfilePage(userId: userId!)));
+              });
+            },
+          ),
+        ],
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bgrnd.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }

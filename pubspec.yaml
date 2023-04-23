@@ -54,6 +54,9 @@ dependencies:
   hexcolor: ^2.0.4
   font_awesome_flutter: ^9.1.0
   otp_text_field: ^1.1.1
+  pedometer: ^3.0.0
+  permission_handler: ^8.2.2
+  horizontal_data_table: ^4.1.5
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +83,27 @@ flutter:
     - assets/images/logo.png
     - assets/images/sweatcoin_bg.png
     - assets/images/first.jpg
+    - assets/images/pitch.jpg
+    - assets/images/fantasy_bg.png
+    - assets/images/city.png
+    - assets/images/cityy.png
+    - assets/images/star.png
+    - assets/images/info.png
+    - assets/images/field.png
+    - assets/images/fieldd.jpg
+    - assets/images/fielddd.png
+    - assets/images/bit.png
+    - assets/images/eth.png
+    - assets/images/tet.png
+    - assets/images/bnb.png
+    - assets/images/usd.png
+    - assets/images/xrp.png
+    - assets/images/cardano.png
+    - assets/images/doge.png
+    - assets/images/grow.png
+    - assets/images/bgrnd.png
+    - assets/images/bgrnd2.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

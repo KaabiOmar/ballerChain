@@ -40,9 +40,27 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Page'),
+        title: Text('Admin Page',
+          style: TextStyle(color: Colors.white),
+        ),centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bgrnd.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
-      body: RefreshIndicator(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bgrnd.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+
+      child: RefreshIndicator(
         onRefresh: _refreshUsers,
         child: ListView.builder(
           itemCount: _usersList.length,
@@ -61,8 +79,10 @@ class _AdminPageState extends State<AdminPage> {
                 },
                 children: [
                   ExpansionPanel(
+
                     isExpanded: isExpanded,
                     headerBuilder: (BuildContext context, bool isExpanded) {
+
                       return ListTile(
                         title: Text(user.email!),
                         subtitle: Text(user.firstname!),
@@ -93,7 +113,7 @@ class _AdminPageState extends State<AdminPage> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  _adminViewModel.blockUser(context,user.id!);
+                                  _adminViewModel.blockUser(context, user.id!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.redAccent.shade100,
@@ -103,7 +123,8 @@ class _AdminPageState extends State<AdminPage> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  _adminViewModel.unblockUser(context,user.id!);
+                                  _adminViewModel.unblockUser(
+                                      context, user.id!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.green,
@@ -113,7 +134,7 @@ class _AdminPageState extends State<AdminPage> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  _adminViewModel.deleteUser(context,user.id!);
+                                  _adminViewModel.deleteUser(context, user.id!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.red,
@@ -133,6 +154,7 @@ class _AdminPageState extends State<AdminPage> {
             );
           },
         ),
+      ),
       ),
     );
   }

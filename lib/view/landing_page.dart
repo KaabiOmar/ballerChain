@@ -1,12 +1,17 @@
+import 'package:ballerchain/model/news.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
 import 'package:ballerchain/view/fantasy.dart';
 import 'package:ballerchain/view/latest.dart';
 import 'package:ballerchain/view/more.dart';
+import 'package:ballerchain/view/portfolioView.dart';
 import 'package:ballerchain/view/profile_page.dart';
 import 'package:ballerchain/view/stats.dart';
+import 'package:ballerchain/viewModel/news_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:pedometer/pedometer.dart';
 
+import 'package:permission_handler/permission_handler.dart';
 import '../common/theme_helper.dart';
 
 class LandingPage extends StatefulWidget {
@@ -15,9 +20,68 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  final NewsViewModel _newsViewModel = NewsViewModel();
+
+  List<News> _news = [];
   bool _showContent = true;
   bool _showHeader = false;
   int _selectedIndex = 0;
+
+  Pedometer _pedometer = Pedometer();
+  late Stream<StepCount> _stepCountStream;
+  int _stepsCount = 0;
+  int _initialStepsCount = 0;
+  List<News> _newslist = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _initPlatformState();
+    _getNews();
+  }
+
+  void _initPlatformState() async {
+    PermissionStatus status = await Permission.activityRecognition.request();
+
+    // Demande de permission pour accéder aux capteurs de podomètre
+    if (status == PermissionStatus.granted) {
+      _stepCountStream = Pedometer.stepCountStream;
+      _stepCountStream.listen(_onStepCount);
+      print("aaaaaa");
+    }
+  }
+
+  /* if (await Permission.activityRecognition.request().isGranted) {
+      _stepCountStream = Pedometer.stepCountStream;
+      var subscription = _stepCountStream.listen(_onStepCount);
+      if (_stepsCount >= 20) {
+        subscription.cancel(); // Stop listening to step count stream
+      }
+    }*/
+
+  void _onStepCount(StepCount event) {
+    setState(() {
+      _stepsCount = event.steps;
+    });
+  }
+
+  void _resetStepsCount() {
+    setState(() {
+      _initialStepsCount = _stepsCount;
+      _stepsCount = 0;
+    });
+  }
+
+  void _getNews() async {
+    try {
+      List<News> news = await _newsViewModel.getNews();
+      setState(() {
+        _newslist = news;
+      });
+    } catch (error) {
+      print('failed to load news : $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
               child: _screens[_selectedIndex],
           ),*/
           Image.asset(
-            'assets/images/sweatcoin_bg.png',
+            'assets/images/bgrnd.png',
             fit: BoxFit.cover,
             height: double.infinity,
             width: double.infinity,
@@ -66,24 +130,6 @@ class _LandingPageState extends State<LandingPage> {
                             children: [
                               Positioned(
                                 top: 20.0,
-                                right: 20.0,
-                                child: Container(
-                                  decoration: ThemeHelper()
-                                      .buttonBoxDecoration(context),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 8.0),
-                                  child: Text(
-                                    'Balance = 70.09',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 20.0,
                                 left: 20.0,
                                 child: Container(
                                   decoration: ThemeHelper()
@@ -107,16 +153,37 @@ class _LandingPageState extends State<LandingPage> {
                       Expanded(
                           child: ListView.builder(
                         controller: controller,
-                        itemCount: 20,
+                        itemCount: _newslist.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            height: 200,
-                            margin: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/first.jpg'),
-                                fit: BoxFit.cover,
+                          return Card(
+                            color: Colors.black26, // Couleur de fond
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: ListTile(
+                              leading: Container(
+                                width: 90,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(_newslist[index].image!,
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                              title: Text(
+                                _newslist[index].title!,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.purple,
+                                ),
+                              ),
+                              subtitle: Text(
+                                _newslist[index].content_text!,
+                                style: TextStyle(
+                                  color: Colors
+                                      .white70, // Couleur du texte du sous-titre
+                                ),
                               ),
                             ),
                           );
@@ -144,22 +211,22 @@ class _LandingPageState extends State<LandingPage> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: Text(
-                        '1 = 1000',
+                        '1 Coin =1000 Step',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16.0,
+                          fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 20.0,
+                    top: 10.0,
                     left: 20.0,
                     child: Container(
-                      decoration: ThemeHelper().buttonBoxDecoration2(context),
+                      decoration: ThemeHelper().buttonBoxDecoration(context),
                       child: ElevatedButton(
-                          style: ThemeHelper().buttonStyle3(),
+                          style: ThemeHelper().buttonStyle(),
                           onPressed: () {
                             // Do something when the button is pressed
                           },
@@ -169,88 +236,52 @@ class _LandingPageState extends State<LandingPage> {
                               GestureDetector(
                                 onTap: () {
                                   String? userId;
-                                  SharedPreference.getUserId()
-                                      .then((value) {
+                                  SharedPreference.getUserId().then((value) {
                                     userId = value;
-                                    Navigator.of(context)
-                                        .pushAndRemoveUntil(
+                                    Navigator.push(
+                                        context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ProfileView(
-                                                    userId: userId!)),
-                                            (route) => false);
+                                                ProfileView(userId: userId!)));
                                   });
                                 },
-                                child: CircleAvatar(
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
-                                  backgroundColor: Colors.purple,
+                                child: Icon(
+                                  Icons.person,
+                                  size: 20,
+                                  color: Colors.white,
                                 ),
-                              )
+                              ),
                             ],
                           )),
                     ),
                   ),
                   Container(
                     child: (Positioned(
-                      top: 150,
-                      left: 95,
+                      top: 120,
+                      right: 150,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                'assets/images/logo.png',
-                                width: 50.0,
-                                height: 50.0,
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
                               Text(
-                                '79.06',
+                                '${_stepsCount.toString().padLeft(2, '0')}',
                                 style: TextStyle(
-                                  fontSize: 60.0,
+                                  fontSize: 55.0,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Available',
+                                'steps today',
                                 style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Image.asset(
-                                'assets/images/logo.png',
-                                width: 15.0,
-                                height: 15.0,
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Text(
-                                '79.06',
-                                style: TextStyle(
-                                  fontSize: 15.0,
+                                  fontSize: 17.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -267,7 +298,12 @@ class _LandingPageState extends State<LandingPage> {
                               child: ElevatedButton(
                                 style: ThemeHelper().buttonStyle(),
                                 onPressed: () {
-                                  // Do something when the button is pressed
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PortfolioPage()), // Remplacez PortfolioPage() par le nom de votre classe de la page du portfolio
+                                  );
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -276,8 +312,8 @@ class _LandingPageState extends State<LandingPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Icon(Icons.wallet,
-                                          color: Colors.white, size: 12),
-                                      SizedBox(width: 5),
+                                          color: Colors.white, size: 14),
+                                      SizedBox(width: 7),
                                       Text("Portfolio",
                                           style: TextStyle(
                                               color: Colors.white,
@@ -295,8 +331,8 @@ class _LandingPageState extends State<LandingPage> {
                     )),
                   ),
                   Positioned(
-                    top: 300,
-                    left: 20,
+                    top: 280,
+                    left: 30,
                     child: Container(
                       child: Column(
                         children: [
@@ -311,16 +347,87 @@ class _LandingPageState extends State<LandingPage> {
                                         decoration: ThemeHelper()
                                             .buttonBoxDecoration2(context),
                                         child: ElevatedButton(
-                                            style: ThemeHelper().buttonStyle2(),
+                                            style: ThemeHelper().buttonStyle(),
                                             onPressed: () {
-                                              // Do something when the button is pressed
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text('Send coins'),
+                                                    backgroundColor:
+                                                        Colors.deepPurple,
+                                                    content: Container(
+                                                      width: 500.0,
+                                                      height: 100.0,
+                                                      child: Column(
+
+                                                        children: [
+                                                          Expanded(
+                                                            child: TextField(
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelText:
+                                                                    'Enter a wallet (username or address)',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                              height: 16.0),
+                                                          Expanded(
+                                                            child: TextField(
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelText:
+                                                                    'Amount',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      Container(
+                                                        decoration: ThemeHelper()
+                                                            .buttonBoxDecoration(
+                                                                context),
+                                                        child: ElevatedButton(
+                                                          style: ThemeHelper()
+                                                              .buttonStyle5(),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text(
+                                                            'Confirm',
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0),
+                                                    ),
+                                                  );
+                                                },
+                                              );
                                             },
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Icon(Icons.transform_outlined,
+                                                Icon(Icons.send_to_mobile,
                                                     color: Colors.white,
                                                     size: 30),
                                               ],
@@ -328,7 +435,7 @@ class _LandingPageState extends State<LandingPage> {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        'Transfer',
+                                        'Send',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 12.0,
@@ -348,10 +455,8 @@ class _LandingPageState extends State<LandingPage> {
                                         decoration: ThemeHelper()
                                             .buttonBoxDecoration2(context),
                                         child: ElevatedButton(
-                                            style: ThemeHelper().buttonStyle2(),
-                                            onPressed: () {
-                                              // Do something when the button is pressed
-                                            },
+                                            style: ThemeHelper().buttonStyle(),
+                                            onPressed: () {},
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -387,16 +492,100 @@ class _LandingPageState extends State<LandingPage> {
                                         decoration: ThemeHelper()
                                             .buttonBoxDecoration2(context),
                                         child: ElevatedButton(
-                                            style: ThemeHelper().buttonStyle2(),
+                                            style: ThemeHelper().buttonStyle(),
                                             onPressed: () {
-                                              // Do something when the button is pressed
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    title: Text(''),
+                                                    content: Stack(
+                                                      children: [
+                                                        Container(
+                                                          width: 500.0,
+                                                          height: 500.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                DecorationImage(
+                                                              image: AssetImage(
+                                                                  'assets/images/grow.png'),
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16.0),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomCenter,
+                                                          child: Container(
+                                                            margin: EdgeInsets.only(
+                                                                bottom:
+                                                                    10.0), // Ajuster la marge vers le haut
+                                                            width: 200,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    16.0),
+                                                            child:
+                                                                ElevatedButton(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: Colors
+                                                                    .deepPurple,
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              16.0),
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                'GROW',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    actions: [], // Supprimer la liste d'actions
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0),
+                                                    ),
+                                                  );
+                                                },
+                                              );
                                             },
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Icon(Icons.inventory_2_sharp,
+                                                Icon(Icons.inventory_2_outlined,
                                                     color: Colors.white,
                                                     size: 30),
                                               ],
@@ -424,16 +613,86 @@ class _LandingPageState extends State<LandingPage> {
                                         decoration: ThemeHelper()
                                             .buttonBoxDecoration2(context),
                                         child: ElevatedButton(
-                                            style: ThemeHelper().buttonStyle2(),
+                                            style: ThemeHelper().buttonStyle(),
                                             onPressed: () {
-                                              // Do something when the button is pressed
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                        'Convert your steps'),
+                                                    backgroundColor:
+                                                        Colors.deepPurple,
+                                                    content: Container(
+                                                      width: 500.0,
+                                                      height: 100.0,
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                              '1 Coin =1000 Step',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,fontSize: 14)),
+                                                          TextField(
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelText:
+                                                                  'Steps',
+                                                            ),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      Container(
+                                                        decoration: ThemeHelper()
+                                                            .buttonBoxDecoration(
+                                                                context),
+                                                        child: Center(
+                                                          child: ElevatedButton(
+                                                            style: ThemeHelper()
+                                                                .buttonStyle5(),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text(
+                                                              'Confirm',
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0),
+                                                    ),
+                                                  );
+                                                },
+                                              );
                                             },
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Icon(Icons.swap_horiz_outlined,
+                                                Icon(
+                                                    Icons
+                                                        .swap_horizontal_circle_outlined,
                                                     color: Colors.white,
                                                     size: 30),
                                               ],
@@ -441,7 +700,7 @@ class _LandingPageState extends State<LandingPage> {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        'Swap',
+                                        'Convert',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 12.0,

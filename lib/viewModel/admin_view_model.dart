@@ -15,17 +15,17 @@ class AdminViewModel {
       final response = await http.delete(url);
 
       if (response.statusCode == 200) {
-       print("user deleted successfully");
+       print("User deleted successfully");
 
        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-         content: Text('user deleted'),
+         content: Text('User deleted'),
          duration: Duration(seconds: 4),
          backgroundColor:Colors.red ,
        ));
 
        return userId ;
       } else {
-        throw Exception('Failed to get users');
+        throw Exception('Failed to delete user');
       }
     } catch (error) {
       throw error;
@@ -48,7 +48,7 @@ class AdminViewModel {
 
         return userId ;
       } else {
-        throw Exception('Failed to get users');
+        throw Exception('Failed to block user');
       }
     } catch (error) {
       throw error;
@@ -61,7 +61,7 @@ class AdminViewModel {
       final response = await http.put(url);
 
       if (response.statusCode == 200) {
-        print("user Unblocked");
+        print("User Unblocked");
 
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('User Unblocked'),
@@ -71,7 +71,7 @@ class AdminViewModel {
 
         return userId ;
       } else {
-        throw Exception('Failed to get users');
+        throw Exception('Failed unblock user');
       }
     } catch (error) {
       throw error;

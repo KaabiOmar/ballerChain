@@ -10,7 +10,7 @@ class ProfileViewModel{
 
 
   Future<User> fetchUserById(String userId) async {
-    final url = Uri.parse('$base_url/user/$userId');
+    final url = Uri.parse('$base_url/user/ancien/$userId');
     final response = await http.get(url);
     //print('$userId');
 

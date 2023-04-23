@@ -7,25 +7,25 @@ import '../model/user.dart';
 import '../utils/const.dart';
 
 class UpdateProfileViewModel {
-  Future<User> updateProfile(int id, User user) async {
+  Future<User> updateProfile(String id, User user) async {
     final url = '$base_url/user/$id';
 
-    final imageFile = File(user.image!);
+    //final imageFile = File(user.image!);
 
     var request = http.MultipartRequest('PUT', Uri.parse(url));
-    if (user.image != null) {
+  /*  if (user.image != null) {
       request.files.add(await http.MultipartFile.fromPath(
         'image',
         user.image!,
         contentType: MediaType('image', 'jpg'),
       ));
-    }
+    }*/
     request.fields['firstname'] = user.firstname!;
     request.fields['lastname'] = user.lastname!;
     request.fields['email'] = user.email!;
     request.fields['phonenumber'] = user.phonenumber!;
     request.fields['birthday'] = user.birthday!;
-    request.fields['password'] = user.password!;
+    //request.fields['password'] = user.password!;
 
     var response = await http.Response.fromStream(await request.send());
 
