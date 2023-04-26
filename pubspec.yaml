@@ -57,6 +57,7 @@ dependencies:
   pedometer: ^3.0.0
   permission_handler: ^8.2.2
   horizontal_data_table: ^4.1.5
+  local_auth: ^1.1.6
 
 dev_dependencies:
   flutter_test:

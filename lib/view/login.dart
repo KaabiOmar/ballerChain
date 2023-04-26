@@ -3,6 +3,7 @@ import 'package:ballerchain/utils/shared_preference.dart';
 import 'package:ballerchain/view/adminPage.dart';
 import 'package:ballerchain/view/landing_page.dart';
 import 'package:ballerchain/view/registration.dart';
+import 'package:ballerchain/view/test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
-
         children: [
           Container(
             decoration: BoxDecoration(
@@ -69,8 +69,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Image.asset('assets/images/logo.png',
-                      height: 120, // ajuster la hauteur de l'image
-                      fit: BoxFit.contain),
+                        height: 120, // ajuster la hauteur de l'image
+                        fit: BoxFit.contain),
                   ),
                 ),
                 SafeArea(
@@ -83,7 +83,9 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             'BallerChain',
                             style: TextStyle(
-                                fontSize: 47, fontWeight: FontWeight.bold,color: Colors.white),
+                                fontSize: 47,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
                           Text(
@@ -197,7 +199,9 @@ class _LoginPageState extends State<LoginPage> {
                                     margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
                                     child: Text.rich(TextSpan(children: [
                                       TextSpan(
-                                          text: "Don\'t have an account? ",style: TextStyle(color: Colors.white70)),
+                                          text: "Don\'t have an account? ",
+                                          style:
+                                              TextStyle(color: Colors.white70)),
                                       TextSpan(
                                         text: 'Create',
                                         recognizer: TapGestureRecognizer()
