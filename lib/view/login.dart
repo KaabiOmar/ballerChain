@@ -1,6 +1,5 @@
 import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
-import 'package:ballerchain/view/TouchID.dart';
 import 'package:ballerchain/view/adminPage.dart';
 import 'package:ballerchain/view/landing_page.dart';
 import 'package:ballerchain/view/registration.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:ballerchain/common/theme_helper.dart';
 import 'package:ballerchain/viewModel/login_view_model.dart';
 import 'package:ballerchain/view//forgot_password_page.dart';
+import 'package:local_auth/local_auth.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -22,6 +22,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final LoginViewModel _loginViewModel = LoginViewModel();
   late Future<User> _futureUser;
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
+  bool canCheckBiometrics = false;
 
   double _headerHeight = 250;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -32,6 +34,69 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    checkBiometrics();
+
+  }
+  Future<void> checkBiometrics() async {
+    try {
+      canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+
+    if (canCheckBiometrics) {
+      try {
+        authenticated = await _localAuthentication.authenticate(
+          localizedReason: 'Please authenticate to login',
+          useErrorDialogs: true,
+          stickyAuth: true,
+          biometricOnly: true,
+        );
+      } catch (e) {
+        print(e);
+      }
+    }
+    if (!mounted) return;
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      await _loginViewModel.login(
+        context,
+        _emailController.text,
+        _passwordController.text,
+      ).then((_) {
+        if (_loginViewModel.roleLogin == "admin") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AdminPage()),
+          );
+        } else {
+          if (authenticated) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LandingPage()),
+            );
+          }else{
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
+          }
+        }
+
+        //  Navigator.pushNamed(context, bottomNavigationRoute);
+        // Navigate to success screen
+        print(SharedPreference.getUserId().toString());
+        print("success !!");
+      }).catchError((error) {
+        // Handle signup error
+      });
+    }
+
   }
 
   @override
@@ -157,42 +222,9 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ),
                                       onPressed: () async {
-                                        if (_formKey.currentState!.validate()) {
-                                          _formKey.currentState!.save();
-
-                                          await _loginViewModel
-                                              .login(
-                                                  context,
-                                                  _emailController.text,
-                                                  _passwordController.text)
-                                              .then((_) {
-                                            if (_loginViewModel.roleLogin ==
-                                                "admin") {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AdminPage()),
-                                              );
-                                            } else {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        TouchIdLogin()),
-                                              );
-                                            }
-
-                                            //  Navigator.pushNamed(context, bottomNavigationRoute);
-                                            // Navigate to success screen
-                                            print(SharedPreference.getUserId()
-                                                .toString());
-                                            print("success !!");
-                                          }).catchError((error) {
-                                            // Handle signup error
-                                          });
-                                        }
+                                        _authenticate();
                                       },
+
                                     ),
                                   ),
                                   Container(

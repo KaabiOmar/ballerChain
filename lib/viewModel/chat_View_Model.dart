@@ -5,8 +5,6 @@ import 'package:ballerchain/Utils/const.dart';
 import 'package:ballerchain/model/chat.dart';
 
 
-
-
 class ChatViewModel {
   StreamController<List<Chat>> _chatListController =
   StreamController<List<Chat>>.broadcast();
