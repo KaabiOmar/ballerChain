@@ -1,16 +1,16 @@
 import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
+import 'package:ballerchain/view/TouchID.dart';
 import 'package:ballerchain/view/adminPage.dart';
 import 'package:ballerchain/view/landing_page.dart';
 import 'package:ballerchain/view/registration.dart';
-import 'package:ballerchain/view/test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/common/theme_helper.dart';
 import 'package:ballerchain/viewModel/login_view_model.dart';
 import 'package:ballerchain/view//forgot_password_page.dart';
-import 'package:ballerchain/pages//widgets/header_widget.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        LandingPage()),
+                                                        TouchIdLogin()),
                                               );
                                             }
 

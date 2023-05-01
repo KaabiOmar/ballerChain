@@ -1,4 +1,5 @@
 import 'package:ballerchain/model/player.dart';
+import 'package:ballerchain/view/chatView.dart';
 import 'package:ballerchain/view/leagues.dart';
 import 'package:ballerchain/view/stats.dart';
 import 'package:ballerchain/view/test.dart';
@@ -522,14 +523,14 @@ class _FantasyState extends State<Fantasy> {
                             },
                           ),
                           GButton(
-                            icon: Icons.health_and_safety,
-                            text: 'Likes',
+                            icon: Icons.chat,
+                            text: 'Chat',
                             onPressed: () {
                               // Navigate to the Profile interface
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Latest()),
+                                    builder: (context) => ChatScreen()),
                               );
                             },
                           ),

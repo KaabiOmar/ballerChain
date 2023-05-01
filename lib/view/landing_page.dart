@@ -1,5 +1,6 @@
 import 'package:ballerchain/model/news.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
+import 'package:ballerchain/view/chatView.dart';
 import 'package:ballerchain/view/fantasy.dart';
 import 'package:ballerchain/view/latest.dart';
 import 'package:ballerchain/view/more.dart';
@@ -762,14 +763,14 @@ class _LandingPageState extends State<LandingPage> {
                               },
                             ),
                             GButton(
-                              icon: Icons.health_and_safety,
-                              text: 'Likes',
+                              icon: Icons.chat,
+                              text: 'Chat',
                               onPressed: () {
                                 // Navigate to the Profile interface
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Latest()),
+                                      builder: (context) => ChatScreen()),
                                 );
                               },
                             ),
