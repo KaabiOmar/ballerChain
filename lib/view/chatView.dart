@@ -56,8 +56,8 @@ class _ChatScreenState extends State<ChatScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/stade.png'),
-          fit: BoxFit.fill,
+          image: AssetImage('assets/images/ball.png'),
+          fit: BoxFit.cover,
           opacity: 10,
         ),
       ),

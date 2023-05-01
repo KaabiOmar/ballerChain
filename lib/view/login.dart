@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               MaterialPageRoute(builder: (context) => LandingPage()),
             );
           }else{
+            print("erreur touchId");
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LoginPage()),
