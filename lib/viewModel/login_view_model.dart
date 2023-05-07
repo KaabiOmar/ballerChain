@@ -40,6 +40,8 @@ class LoginViewModel{
       roleLogin =roleFromJson;
 
 
+
+
       print('Access Token: $accessToken');
       print('voici id: $id');
       print('id stocke dans sharedpreference: ${await SharedPreference.getUserId()}');

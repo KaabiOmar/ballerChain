@@ -7,6 +7,8 @@ import 'package:ballerchain/view/more.dart';
 import 'package:ballerchain/view/portfolioView.dart';
 import 'package:ballerchain/view/profile_page.dart';
 import 'package:ballerchain/view/stats.dart';
+import 'package:ballerchain/view/test.dart';
+import 'package:ballerchain/view/test2.dart';
 import 'package:ballerchain/viewModel/news_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -239,6 +241,8 @@ class _LandingPageState extends State<LandingPage> {
                                   String? userId;
                                   SharedPreference.getUserId().then((value) {
                                     userId = value;
+                                    print('cest le user id $userId');
+
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -770,7 +774,7 @@ class _LandingPageState extends State<LandingPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ChatScreen()),
+                                      builder: (context) => ChatScreen2()),
                                 );
                               },
                             ),

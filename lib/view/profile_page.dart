@@ -1,10 +1,12 @@
+import 'package:ballerchain/common/theme_helper.dart';
 import 'package:ballerchain/utils/shared_preference.dart';
+import 'package:ballerchain/view/login.dart';
 import 'package:ballerchain/view/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:ballerchain/model/user.dart';
 import 'package:ballerchain/viewmodel/profile_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../pages/widgets/header_widget.dart';
 
 class ProfileView extends StatefulWidget {
   final String userId;
@@ -17,7 +19,6 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   late Future<User> _futureUser;
-  double _headerHeight = 250;
 
   @override
   void initState() {
@@ -141,6 +142,35 @@ class _ProfileViewState extends State<ProfileView> {
                                                   subtitle: Text(
                                                       'Coins: ${user.coins} coin'),
                                                 ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  decoration: ThemeHelper()
+                                                      .buttonBoxDecoration(context),
+                                                  child: ElevatedButton(
+                                                    style: ThemeHelper().buttonStyle(),
+                                                    child: Padding(
+                                                      padding:
+                                                      EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                                      child: Text(
+                                                        'Logout'.toUpperCase(),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.bold,
+                                                            color: Colors.white),
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      SharedPreferences preferences = await SharedPreferences.getInstance();
+                                                      await preferences.clear().then((value) =>    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => LoginPage()),
+                                                      ));
+                                                    },
+
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -167,12 +197,12 @@ class _ProfileViewState extends State<ProfileView> {
       ),
       appBar: AppBar(
         title: Text(
-          'Profile',
+          'My profile',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.white),
+          icon: Icon(Icons.close,color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },

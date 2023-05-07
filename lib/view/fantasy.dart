@@ -305,14 +305,7 @@ class _FantasyState extends State<Fantasy> {
                                               style:
                                                   ThemeHelper().buttonStyle3(),
                                               onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Test(
-                                                              selectedPlayers:
-                                                                  playa)),
-                                                ); // Do something when the button is pressed
+                                                // Do something when the button is pressed
                                               },
                                               child: Row(
                                                 mainAxisAlignment:
